@@ -1,6 +1,0 @@
-{% macro abilityLink(ability) %}
-<a class="flex items-center gap-2 pl-3 pr-2 py-0.5 rounded-full bg-black/50 backdrop-saturate-150 hover:bg-black/70 dark:bg-white/50 dark:hover:bg-white/70 text-white dark:text-black cursor-pointer group active:scale-95 active:duration-75 active:bg-neutral-500" href="{{ url_for('pokemon_with_ability', ability_name=ability) }}">
-  {{ ability }}
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 group-hover:rotate-12 group-hover:scale-110 origin-top-right duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"></path><path d="m21 3-9 9"></path><path d="M15 3h6v6"></path></svg>
-</a>
-{% endmacro %}
