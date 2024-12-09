@@ -1,0 +1,39 @@
+#poke_grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: start;
+  /* min-height: 100vh; */
+  gap: 1rem;
+}
+
+#poke_link {
+  position: relative;
+  overflow: hidden;
+  background: #ddd;
+  border-radius: 1rem;
+  display: flex;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  flex-direction: column-reverse;
+  align-items:center;
+  padding: 0.5rem;
+}
+
+#poke_link:hover {
+  background: #ccc;
+  color: #77f;
+  text-decoration: underline;
+
+  /* extra credit */
+  transform: scale(1.05) translateY(-0.125rem);
+  box-shadow: 0 1rem 1rem -0.5rem #0002;
+}
+
+@media (prefers-color-scheme: dark) {
+  #poke_link {
+    background: #222;
+  }
+  #poke_link:hover {
+    background: #333;
+  }
+}

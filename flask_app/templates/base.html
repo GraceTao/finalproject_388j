@@ -1,0 +1,54 @@
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+      <!-- keep these -->
+      <link
+         rel="stylesheet"
+         href="{{ url_for('static', filename='output.css') }}"
+      />
+      <link
+         rel="stylesheet"
+         href="{{ url_for('static', filename='search.css') }}"
+      />
+      <!-- TODO: comment these out -->
+      <!-- <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}" /> -->
+      <!-- <link rel="stylesheet" href="{{ url_for('static', filename='poke_grid.css') }}" /> -->
+      <!-- <link rel="stylesheet" href="{{ url_for('static', filename='poke_info.css') }}" />  -->
+
+      <!-- Uncomment this line to use the CDN Version of Tailwind -->
+      <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+      <title>Poke-Info</title>
+   </head>
+   <body class="my-0 mx-auto md:max-w-screen-md lg:max-w-screen-lg">
+      <header
+         class="flex justify-between items-center sticky p-4 h-20 z-50 top-0"
+      >
+         <nav class="items-center flex gap-4">
+            {% block back %}{% endblock %} {% block title %}{% endblock %}
+         </nav>
+         {% block searchbar %}{% endblock %}
+      </header>
+      <main>{% block content %}{% endblock %}</main>
+      <footer class="opacity-50 px-0 py-4 text-center">
+         © CMSC388j Poke-Info website
+      </footer>
+
+      <!-- NOTE: the searchbar script needs to be below all the anchor tags in order for it to work, this is why we don't place it inside the searchbar macro, since the searchbar block is rendered above the content block in our base.html -->
+      <script>
+         searchbar = document.getElementById("search");
+         links = Array.from(document.querySelectorAll("a"));
+
+         searchbar.addEventListener("input", (e) => {
+            searchValue = e.target.value.toLowerCase();
+            links.forEach((link) => {
+               link.style.display =
+                  String(link.innerText).toLowerCase().includes(searchValue)
+                     ? "flex"
+                     : "none";
+            });
+         });
+      </script>
+   </body>
+</html>

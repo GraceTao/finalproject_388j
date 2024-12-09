@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block searchbar %} {% from 'macros/search.html'
+import searchbar %} {{ searchbar() }} {% endblock %} {% block title %}
+<h1
+   class="m-0 h-12 w-fit px-4 py-1 bg-[#fff4] backdrop-blur-lg backdrop-saturate-[180%] shadow-[0_1rem_1rem_-0.5rem_#0002] border-2 border-solid border-[#0002] rounded-[999rem] font-bold text-2xl dark:bg-[#1114] dark:border-2 dark:border-solid dark:border-[#fff4] dark:backdrop-blur-lg dark:backdrop-saturate-[180%] dark:bg-gradient-to-r from-[#f88] via-[#fa4] via-[#f8f] to-[#88f] dark:bg-clip-text dark:text-transparent"
+>
+   Poke-Info website!
+</h1>
+{% endblock %} {% block content %}
+<div id="poke_grid" class="flex flex-wrap justify-center items-start gap-4">
+   {% for pokemon, pokemonid in pokemon_list|zip(poke_ids) %}
+   <a
+      id="poke_link"
+      class="relative overflow-hidden bg-[#ddd] rounded-2xl flex transition bg text transform shadow ease duration-300 flex-col-reverse items-center p-2 hover:bg-[#ccc] hover:text-[#77f] hover:underline hover:scale-105 hover:translate-y-[-0.125rem] hover:shadow-[0_1rem_1rem_-0.5rem_#0002] dark:bg-[#222] dark:hover:bg-[#333]"
+      href="{{url_for('pokemon_info', pokemon_name=pokemon)}}"
+   >
+      {{ pokemon }}
+      <img
+         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{pokemonid}}.png"
+      />
+   </a>
+   {% endfor %}
+</div>
+{% endblock %}

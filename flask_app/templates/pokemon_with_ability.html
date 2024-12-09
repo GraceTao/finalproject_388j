@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block searchbar %}
+    {% from 'macros/search.html' import searchbar %}
+    {{ searchbar() }}
+{% endblock %}
+
+{% block title %}
+    <b>Pokemon With Ability {{ ability_name }}:</b>
+{% endblock %}
+
+{% block back %}
+    {% from 'macros/home.html' import home %}
+    {{ home() }}
+{% endblock %}
+
+{% block content %}
+<ol>
+    {% for pokemon,id in pokemon_list.items() %}
+    <li>
+        <a href="{{ url_for('pokemon_info', pokemon_name=pokemon) }}">{{ pokemon }}</a>
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ id }}.png" />
+    </li>
+    {% endfor %}
+</ol>
+{% endblock %}

@@ -1,0 +1,54 @@
+
+#search_wrapper {
+  width: 16rem;
+  height: 3rem;
+  border-radius: 10rem;
+  background: #ddd8;
+  border: 2px solid #3334;
+  backdrop-filter: blur(1rem) saturate(180%);
+  position: relative;
+
+  transition: width 0.3s;
+  will-change: width;
+}
+
+@media (prefers-color-scheme: dark) {
+  #search_wrapper {
+    background: #2224;
+    border: 2px solid #fff4;
+  }
+}
+
+#search_icon {
+  transform: translateY(-50%);
+  pointer-events: none;
+  position: absolute;
+  opacity: 0.5;
+  z-index: 69;
+  left: 1rem;
+  top: 50%;
+}
+
+#search {
+  padding: 0.5rem;
+  padding-left: 3rem;
+  font-size: 1.125rem;
+  background: transparent;
+  width: 100%; height: 100%;
+  border-radius: 10rem;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  #search_wrapper {
+    width: 3rem;
+    height: 3rem;
+  }
+  /* NOTE: can't apply styles to the parent element */
+  /* #search:focus > #search-wrapper {
+    width: 16rem;
+  } */
+  #search_icon {
+    left: 0.75rem;
+  }
+}

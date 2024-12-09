@@ -1,0 +1,7 @@
+{% macro home() %}
+<a class="bg-white/20 dark:bg-[#1114] h-12 backdrop-blur-lg backdrop-saturate-150 shadow-lg cursor-pointer dark:hover:bg-neutral-600/50 border-2 border-neutral-700/20 dark:border-neutral-300/20 hover:bg-neutral-500/50 duration-300 pl-2 pr-4 py-2 rounded-full font-bold z-50 w-fit flex items-center gap-2 group relative active:scale-95 active:duration-75 active:bg-neutral-500" href={{ url_for('index') }}>
+  <svg xmlns="http://www.w3.org/2000/svg" class="absolute top-1/2 -translate-y-1/2 left-2 h-4 w-4 group-hover:opacity-100 opacity-0 group-hover:translate-x-0 translate-x-2 duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:opacity-0 opacity-100 group-hover:-translate-x-2 duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+  Home
+</a>
+{% endmacro %}
