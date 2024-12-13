@@ -17,22 +17,15 @@ from datetime import datetime
 import os
 
 # local
-from .client import MovieClient
-
-# update with your API Key
-OMDB_API_KEY = 'b2682722'
-
-# do not remove these 2 lines (required for autograder to work)
-if os.getenv('OMDB_API_KEY'):
-    OMDB_API_KEY = os.getenv('OMDB_API_KEY')
+from .client import OnetWebService
 
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-movie_client = MovieClient(OMDB_API_KEY)
+careers_client = OnetWebService("cmsc388j_final_proje", "3283qjy")
 
 from .users.routes import users
-from .movies.routes import movies
+from .careers.routes import movies
 
 
 def custom_404(e):
