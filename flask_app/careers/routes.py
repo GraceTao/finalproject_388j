@@ -3,7 +3,7 @@ from io import BytesIO
 from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
 
-from .. import movie_client
+from .. import OnetWebService
 from ..forms import MovieReviewForm, SearchForm
 from ..models import User, Review
 from ..utils import current_time
