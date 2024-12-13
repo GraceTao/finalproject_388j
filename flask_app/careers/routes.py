@@ -32,7 +32,7 @@ def index():
 @movies.route("/search-results/<query>", methods=["GET"])
 def query_results(query):
     try:
-        results = movie_client.search(query)
+        results = []
     except ValueError as e:
         return render_template("query.html", error_msg=str(e))
 
@@ -42,7 +42,7 @@ def query_results(query):
 @movies.route("/movies/<movie_id>", methods=["GET", "POST"])
 def movie_detail(movie_id):
     try:
-        result = movie_client.retrieve_movie_by_id(movie_id)
+        result = []
     except ValueError as e:
         return render_template("movie_detail.html", error_msg=str(e))
 
