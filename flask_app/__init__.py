@@ -11,7 +11,6 @@ from flask_login import (
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
 
-
 # stdlib
 from datetime import datetime
 import os
@@ -22,7 +21,7 @@ from .client import OnetWebService
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-careers_client = OnetWebService("cmsc388j_final_proje", "3283qjy")
+careers_client = OnetWebService(os.environ.get(ONET_USERNAME), os.environ.get(ONET_PASSWORD))
 
 from .users.routes import users
 from .careers.routes import movies
@@ -35,9 +34,11 @@ def custom_404(e):
 def create_app(test_config=None):
     app = Flask(__name__)
 
-    app.config.from_pyfile("config.py", silent=False)
-    if test_config is not None:
-        app.config.update(test_config)
+    
+
+    # app.config.from_pyfile("config.py", silent=False)
+    # if test_config is not None:
+    #     app.config.update(test_config)
 
     db.init_app(app)
     login_manager.init_app(app)
