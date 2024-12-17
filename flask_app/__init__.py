@@ -14,14 +14,17 @@ from werkzeug.utils import secure_filename
 # stdlib
 from datetime import datetime
 import os
+from dotenv import load_dotenv
 
 # local
 from .client import OnetWebService
 
+load_dotenv()
+
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-careers_client = OnetWebService(os.environ.get(ONET_USERNAME), os.environ.get(ONET_PASSWORD))
+careers_client = OnetWebService(os.environ.get("ONET_USERNAME"), os.environ.get("ONET_PASSWORD"))
 
 from .users.routes import users
 from .careers.routes import movies
@@ -34,7 +37,8 @@ def custom_404(e):
 def create_app(test_config=None):
     app = Flask(__name__)
 
-    
+    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
+    app.config["MONGODB_HOST"] = os.environ.get("MONGODB_HOST")
 
     # app.config.from_pyfile("config.py", silent=False)
     # if test_config is not None:
