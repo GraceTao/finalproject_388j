@@ -18,7 +18,7 @@ class OnetWebService:
         else:
             self._url_root = 'https://services.onetcenter.org/v' + version + '/ws/'
     
-    def call(self, path, *query):
+    def call(self, path, query):
         url = self._url_root + path
         if len(query) > 0:
             url += '?' + urllib.parse.urlencode(query, True)

@@ -1,0 +1,20 @@
+{% extends "header.html" %}
+
+<ul>
+   {% for career in careers %}
+   <li>{{ career.title }}</li>
+   {% else %}
+   <li>No careers found.</li>
+   {% endfor %}
+</ul>
+
+<!-- Pagination -->
+<div>
+   {% if prev_start %}
+   <a href="{{ url_for('careers.all_careers', start=prev_start) }}">Previous</a>
+   {% endif %} {% if next_start %}
+   <a href="{{ url_for('careers.all_careers', start=next_start) }}">Next</a>
+   {% endif %}
+</div>
+
+{% block content %}{% endblock %}

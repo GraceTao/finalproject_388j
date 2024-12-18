@@ -27,7 +27,7 @@ bcrypt = Bcrypt()
 careers_client = OnetWebService(os.environ.get("ONET_USERNAME"), os.environ.get("ONET_PASSWORD"))
 
 from .users.routes import users
-from .careers.routes import movies
+from .careers.routes import careers
 
 
 def custom_404(e):
@@ -49,7 +49,7 @@ def create_app(test_config=None):
     bcrypt.init_app(app)
 
     app.register_blueprint(users)
-    app.register_blueprint(movies)
+    app.register_blueprint(careers)
     app.register_error_handler(404, custom_404)
 
     login_manager.login_view = "users.login"
