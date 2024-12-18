@@ -25,7 +25,6 @@ def register():
                         email=registration_form.email.data,
                         password=hashed_password)
         new_user.save()
-        print(new_user)
         return redirect(url_for('users.login'))
 
     return render_template('register.html', form=registration_form)
@@ -33,8 +32,8 @@ def register():
 
 @users.route("/login", methods=["GET", "POST"])
 def login():
-    """ if current_user.is_authenticated:
-        return redirect(url_for('movies.index')) """
+    if current_user.is_authenticated:
+        return redirect(url_for('careers.index'))
     
     login_form = LoginForm()
 
@@ -43,7 +42,7 @@ def login():
 
         if (user is not None) and (bcrypt.check_password_hash(user.password, login_form.password.data)):
             login_user(user)
-            return render_template('user_detail.html')
+            return render_template('account.html')
         else:
             flash('Incorrect username or password. Please try again.')
     
