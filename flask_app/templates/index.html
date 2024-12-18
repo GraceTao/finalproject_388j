@@ -1,11 +1,12 @@
-{% extends "header.html" %} {% block content %}
+{% extends "header.html" %} 
+{% block content %}
 <div class="main-container">
    <div class="decoration-main-container">
       <div class="decoration-main"></div>
    </div>
    <h2 class="main-title">Search a career</h2>
-   <a class="m-5 navlink" href="{{ url_for('careers.all_careers', start=0) }}">
-      <span class="hidden sm:block">Go To All Careers</span>
+   <a class="m-5 navlink" style="font-size:40;justify-self:center" href="{{ url_for('careers.all_careers', start=0) }}">
+      <span>Go To All Careers</span>
    </a>
    <div class="credit" style="text-align: center; position: fixed; bottom: 0">
       <p><a href="https://services.onetcenter.org/" title="This site incorporates information from O*NET Web Services. Click to learn more."><img src="https://www.onetcenter.org/image/link/onet-in-it.svg" style="width: 130px; height: 60px; border: none" alt="O*NET in-it"></a></p>

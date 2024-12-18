@@ -1,20 +1,28 @@
 {% extends "header.html" %}
+
 {% block content %}
-<ul>
-   {% for career in careers %}
-   <li>{{ career.title }}</li>
-   {% else %}
-   <li>No careers found.</li>
-   {% endfor %}
-</ul>
+<h1 style="font-size:30;margin-left:10%">Explore Careers</h1>
+<div style="display: flex; flex-direction: column; align-items: center;">
+   <div class="md:px-4"><i>Click on a career to learn more about it.</i></div><br>
 
-<!-- Pagination -->
-<div>
-   {% if prev_start %}
-   <a href="{{ url_for('careers.all_careers', start=prev_start) }}">Previous</a>
-   {% endif %} {% if next_start %}
-   <a href="{{ url_for('careers.all_careers', start=next_start) }}">Next</a>
-   {% endif %}
+   <div style="display: flex; justify-content: center; gap:20%; padding-bottom: 1%;">
+      {% if prev_start != None %}
+      <a href="{{ url_for('careers.all_careers', start=prev_start) }}"><b><u>Previous</u></b></a>
+      {% endif %} 
+      {% if next_start %}
+      <a href="{{ url_for('careers.all_careers', start=next_start) }}"><b><u>Next</u></b></a>
+      {% endif %}
+   </div>
+
+   <ol style="text-align: left; width: 50%; padding-left:10%; list-style-type: disc;">
+      {% for career in careers %}
+      <li>
+         <a href="{{url_for('careers.career_detail', code=career.code)}}"><u>{{ career.title }}</u></a>
+      </li>
+      {% else %}
+      <li>No careers found.</li>
+      {% endfor %}
+   </ol>
+
 </div>
-
 {% endblock %}

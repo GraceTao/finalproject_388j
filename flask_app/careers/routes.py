@@ -17,25 +17,8 @@ def get_b64_img(username):
     image = base64.b64encode(bytes_im.getvalue()).decode()
     return image
 
-def get_careers(start, end, sort):
-    """
-    Fetches careers with pagination support.
-    
-    Args:
-        start (int): Starting index of the careers to fetch.
-        end (int): Ending index of the careers to fetch.
-        sort (str): Sorting parameter (default is 'name').
-        
-    Returns:
-        dict: JSON response with careers and pagination info.
-    """
-    path = 'mnm/careers/'
-    query = {'sort': sort, 'start': start, 'end': end}
-    return careers_client.call(path, query)
-
 
 """ ************ View functions ************ """
-
 
 @careers.route("/", methods=["GET", "POST"])
 def index():
@@ -46,28 +29,32 @@ def index():
 
     return render_template("index.html", form=form)
 
-@careers.route("/all-careers<int:start>", methods=["GET"])
+@careers.route("/all-careers/<int:start>", methods=["GET"])
 def all_careers(start):
-    # Get 'start' and 'end' query parameters, with defaults for the first page
-    end = start + 19  # Show 20 careers per page
-    
-    # Call the API to get careers
-    response = get_careers(start=start, end=end, sort="name")
+    form = SearchForm()
 
-    # Extract careers list and pagination data
+    if form.validate_on_submit():
+        return redirect(url_for("careers.query_results", query=form.search_query.data))
+    
+    end = start + 19  # Show 20 careers per page
+    path = 'mnm/careers/'
+    query = {'sort': "name", 'start': start, 'end': end}
+    response = careers_client.call(path, query)
+
     careers_list = response.get("career", [])
     total = response.get("total", 0)  # Total number of careers
-    
-    # Calculate next and previous pagination indices
+
     next_start = start + 20 if end < total else None
     prev_start = start - 20 if start > 1 else None
-    print(response)
+    print(prev_start)
+    
     return render_template(
         "all_careers.html",
         careers=careers_list,
         current_start=start,
         prev_start=prev_start,
         next_start=next_start,
+        form=form
     )
 
 
@@ -81,29 +68,28 @@ def query_results(query):
     return render_template("query.html", results=results)
 
 
-@careers.route("/careers/<career>", methods=["GET", "POST"])
-def movie_detail(movie_id):
-    try:
-        result = []
-    except ValueError as e:
-        return render_template("movie_detail.html", error_msg=str(e))
+@careers.route("/career/<code>", methods=["GET", "POST"])
+def career_detail(code):
+    print(code)
+    career = careers_client.call(f'mnm/careers/{code}/report', {})
+    form = SearchForm()
 
-    form = MovieReviewForm()
     if form.validate_on_submit():
-        review = Review(
-            commenter=current_user._get_current_object(),
-            content=form.text.data,
-            date=current_time(),
-            imdb_id=movie_id,
-            movie_title=result.title,
-        )
+        return redirect(url_for("careers.query_results", query=form.search_query.data))
+    # form = MovieReviewForm()
+    # if form.validate_on_submit():
+    #     review = Review(
+    #         commenter=current_user._get_current_object(),
+    #         content=form.text.data,
+    #         date=current_time(),
+    #         imdb_id=movie_id,
+    #         movie_title=result.title,
+    #     )
 
-        review.save()
+    #     review.save()
 
-        return redirect(request.path)
+    #     return redirect(request.path)
 
-    reviews = Review.objects(imdb_id=movie_id)
+    # reviews = Review.objects(imdb_id=movie_id)
 
-    return render_template(
-        "movie_detail.html", form=form, movie=result, reviews=reviews
-    )
+    return render_template("career_detail.html", career=career, form=form)
