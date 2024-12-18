@@ -8,15 +8,14 @@
 
 <div class="results-container">
   <div class="decoration-container"><div class="decoration"></div></div>
-  {% for result in results %}
+  {% if results.total == 0 %}
+  <h1 style="margin-top:10%">No results found. Please try again with a different keyword.</h1>
+  {% endif %}
+  {% for result in results.career %}
   <a 
-    href="{{ url_for('movies.movie_detail', movie_id=result.imdb_id) }}"
+    href="{{ url_for('careers.career_detail', code=result.code) }}"
     class="group movie-card"
-  >
-    <img src="{{ result.poster_url }}" class="movie-card-img" alt="missing" />
-    <h5 class="movie-card-content"> {{ result.title }}
-      <span class="text-neutral-400 font-normal"> &middot; {{ result.year }} </span>
-    </h5>
+  >{{result.title}}
   </a>
   {% endfor %}
 </div>

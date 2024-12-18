@@ -2,13 +2,17 @@
 {% block content %} 
 {% if error_msg %}
 <b class="text-red-400"> {{ error_msg }} </b>
-{% endif %} {% if career %} {# Display card for the career details #}
+{% endif %} 
+
+{% if career %} 
+{# Display card for the career details #}
 <h1 style="font-size:30;margin-left:5%;margin-top:2%">
   <b>{{ career.career.title }}</b>
 </h1>
-{% if career.job_outlook.outlook.category == "Bright" %}
+{% if career.job_outlook.outlook.category and career.job_outlook.outlook.category == "Bright" %}
   <b style="font-size:20;margin-left:5%;margin-top:2%;color:greenyellow">Good news! This career has a bright outlook!</b>
 {% endif %}
+
 <div style="font-size:18; margin-left:10%; width:80%; padding-top:2%">
    <ul>
       <li>
@@ -19,13 +23,13 @@
             {% endfor %}
          </ul>
       </li>
-
+      {% if career.education.education_usually_needed %}
       <br>
       <li>
         <b>Education:</b>
           {{ career.education.education_usually_needed.category[0] }}
       </li>
-
+      {% endif %}
       <br>
       <li>
         <b>Median income:</b>

@@ -60,12 +60,14 @@ def all_careers(start):
 
 @careers.route("/search-results/<query>", methods=["GET"])
 def query_results(query):
-    try:
-        results = []
-    except ValueError as e:
-        return render_template("query.html", error_msg=str(e))
+    form = SearchForm()
 
-    return render_template("query.html", results=results)
+    if form.validate_on_submit():
+        return redirect(url_for("careers.query_results", query=form.search_query.data))
+    
+    results = careers_client.call(f'mnm/search/', {'keyword': query, 'start': 1, 'end': 21})
+    
+    return render_template("query.html", results=results, form=form)
 
 
 @careers.route("/career/<code>", methods=["GET", "POST"])
