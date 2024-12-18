@@ -65,7 +65,7 @@ def user_detail(username):
 @users.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
-    update_username_form = UpdateUsernameForm()
+    """ update_username_form = UpdateUsernameForm()
     update_profile_pic_form = UpdateProfilePicForm()
     image = None
     if request.method == "POST":
@@ -88,12 +88,9 @@ def account():
             return redirect(url_for('users.account'))
         
     bytes_im = BytesIO(current_user.profile_pic.read())
-    image = base64.b64encode(bytes_im.getvalue()).decode() if bytes_im else None
+    image = base64.b64encode(bytes_im.getvalue()).decode() if bytes_im else None """
     
-    return render_template('account.html', 
-                           image=image, 
-                           update_username_form=update_username_form, 
-                           update_profile_pic_form=update_profile_pic_form)
+    return render_template('account.html')
 
 @users.route("/quiz", methods=["GET", "POST"])
 @login_required
@@ -109,3 +106,5 @@ def quiz():
         user.save()
         return redirect(url_for('users.quiz')) #Change this route later
     return render_template('quiz.html', form=quiz_results_form)
+
+

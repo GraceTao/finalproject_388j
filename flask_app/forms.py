@@ -3,7 +3,7 @@ from flask_login import current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
-from wtforms import StringField, SubmitField, TextAreaField, PasswordField
+from wtforms import HiddenField, StringField, SubmitField, TextAreaField, PasswordField
 from wtforms.validators import (
     InputRequired,
     Length,
@@ -83,7 +83,11 @@ class UpdateProfilePicForm(FlaskForm):
     submit_picture = SubmitField("Upload")
 
 class QuizResultsForm(FlaskForm):
-    career1 = StringField("Top Career Result")
-    career2 = StringField("Second Career Result")
-    career3 = StringField("Third Career Result")
+    career1 = StringField("Top Career Result", validators=[InputRequired()])
+    career2 = StringField("Second Career Result", validators=[InputRequired()])
+    career3 = StringField("Third Career Result", validators=[InputRequired()])
     submit = SubmitField("Submit")
+
+class SaveJobForm(FlaskForm):
+    job_title = HiddenField("Job Title")
+    submit = SubmitField("Save this job")

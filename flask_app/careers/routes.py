@@ -1,11 +1,11 @@
 import base64,io
 from io import BytesIO
 from flask import Blueprint, render_template, url_for, redirect, request, flash
-from flask_login import current_user
+from flask_login import current_user, login_required
 from pytest import console_main
 
 from .. import careers_client
-from ..forms import MovieReviewForm, SearchForm
+from ..forms import MovieReviewForm, SaveJobForm, SearchForm
 from ..models import User, Profile #, Quiz
 from ..utils import current_time
 
@@ -46,6 +46,7 @@ def all_careers(start):
 
     next_start = start + 20 if end < total else None
     prev_start = start - 20 if start > 1 else None
+    print(response)
     print(prev_start)
     
     return render_template(
@@ -75,7 +76,6 @@ def career_detail(code):
     print(code)
     career = careers_client.call(f'mnm/careers/{code}/report', {})
     form = SearchForm()
-
     if form.validate_on_submit():
         return redirect(url_for("careers.query_results", query=form.search_query.data))
     # form = MovieReviewForm()
@@ -95,3 +95,18 @@ def career_detail(code):
     # reviews = Review.objects(imdb_id=movie_id)
 
     return render_template("career_detail.html", career=career, form=form)
+
+@careers.route("/career_detail/", methods=["GET", "POST"])
+@login_required
+def save_job():
+    saved_job_form = SaveJobForm()
+    if saved_job_form.validate_on_submit():
+        title = saved_job_form.job_title.data
+        user = User.objects(username=current_user.username).first()
+        user.saved_jobs.append(title)
+        user.save()
+        return redirect(request.referrer)
+    return render_template('career_detail.html', form=saved_job_form)
+
+
+

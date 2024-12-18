@@ -6,9 +6,22 @@
 
 {% if career %} 
 {# Display card for the career details #}
-<h1 style="font-size:30;margin-left:5%;margin-top:2%">
-  <b>{{ career.career.title }}</b>
-</h1>
+<div style="display: flex; justify-content: space-between; padding: 10px;">
+  <h1 style="font-size:30;margin-left:5%;margin-top:2%">
+    <b>{{ career.career.title }}</b>
+  </h1>
+
+
+  <form method="POST" action="{{ url_for('careers.save_job') }}">
+    {{ form.hidden_tag() }}
+    <input type="hidden" name="job_title" value="{{ career.title }}">
+    
+    <button type="submit" class="save-job-btn" style="padding: 10px 20px;">
+      <i class="fas fa-map-pin" style="margin-right: 8px;"></i> Save Job
+    </button>
+  </form>
+</div>
+
 {% if career.job_outlook.outlook.category and career.job_outlook.outlook.category == "Bright" %}
   <b style="font-size:20;margin-left:5%;margin-top:2%;color:greenyellow">Good news! This career has a bright outlook!</b>
 {% endif %}
@@ -158,4 +171,5 @@
    <div class="w-0 lg:w-96"></div>
 </div>
 {% endif %} {% endblock content %} -->
+{% endblock content %}
 </div>
