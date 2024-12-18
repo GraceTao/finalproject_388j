@@ -2,10 +2,11 @@ import base64,io
 from io import BytesIO
 from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
+from pytest import console_main
 
 from .. import careers_client
 from ..forms import MovieReviewForm, SearchForm
-from ..models import User, Quiz, Profile
+from ..models import User, Profile #, Quiz
 from ..utils import current_time
 
 careers = Blueprint("careers", __name__)
@@ -45,14 +46,14 @@ def index():
 
     return render_template("index.html", form=form)
 
-@careers.route("/all-careers", methods=["GET"])
+@careers.route("/all-careers<int:start>", methods=["GET"])
 def all_careers(start):
     # Get 'start' and 'end' query parameters, with defaults for the first page
     end = start + 19  # Show 20 careers per page
     
     # Call the API to get careers
     response = get_careers(start=start, end=end, sort="name")
-    
+
     # Extract careers list and pagination data
     careers_list = response.get("career", [])
     total = response.get("total", 0)  # Total number of careers
@@ -60,7 +61,7 @@ def all_careers(start):
     # Calculate next and previous pagination indices
     next_start = start + 20 if end < total else None
     prev_start = start - 20 if start > 1 else None
-    
+    print(response)
     return render_template(
         "all_careers.html",
         careers=careers_list,

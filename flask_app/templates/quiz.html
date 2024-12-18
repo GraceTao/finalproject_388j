@@ -1,0 +1,39 @@
+{% extends "header.html" %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; padding: 10px;">
+    <div style="flex: 1; padding-left: 10px">
+        <script src="https://services.onetcenter.org/embed/ip.js?client=cmsc388j_final_proje"></script>
+        <div class="embed-onet-ip" ></div>
+    </div>
+    <div style="flex: 1;padding-right: 10px">
+        <div class="container mx-auto w-full">
+            <h2 class="text-2xl font-bold text-center">Quiz results</h2>
+        </div>
+        <div class="container mx-auto w-full text-center ">
+            <p>Which recommended careers are you most interested in?</p>
+            <p>Save your personal top three careers from your quiz results!</p>
+        </div>
+        <!-- Quiz Form: -->
+        <div class="container mx-auto w-full md:w-1/4 lg:w-1/4">
+
+            <form class="review-form" method="POST" action="">
+                {{ form.csrf_token }}
+                <div class="form-group review-input">
+                    {{ form.career1.label }}
+                    {{ form.career1(class="form-content") }}
+                </div>
+                <div class="form-group review-input">
+                    {{ form.career2.label }}
+                    {{ form.career2(class="form-content") }}
+                </div>
+                <div class="form-group review-input">
+                    {{ form.career3.label }}
+                    {{ form.career3(class="form-content") }}
+                </div>
+                {{ form.submit(class="review-button") }}
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

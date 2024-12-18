@@ -13,8 +13,8 @@ class User(db.Document, UserMixin):
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
     profile_pic = db.ImageField()
-    profile = db.ReferenceField(Profile, null=True)
-    quiz_results = db.ListField(null=True)
+    #profile = db.ReferenceField(Profile, null=True)
+    quiz_results = db.ListField(db.StringField(), default=[])
 
     # Returns unique string identifying our object
     def get_id(self):

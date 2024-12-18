@@ -4,11 +4,14 @@
       <div class="decoration-main"></div>
    </div>
    <h2 class="main-title">Search a career</h2>
-   <a class="m-5 navlink" href="{{ url_for('careers.all_careers') }}">
+   <a class="m-5 navlink" href="{{ url_for('careers.all_careers', start=0) }}">
       <span class="hidden sm:block">Go To All Careers</span>
    </a>
+   <div class="credit" style="text-align: center; position: fixed; bottom: 0">
+      <p><a href="https://services.onetcenter.org/" title="This site incorporates information from O*NET Web Services. Click to learn more."><img src="https://www.onetcenter.org/image/link/onet-in-it.svg" style="width: 130px; height: 60px; border: none" alt="O*NET in-it"></a></p>
+      <p>This site incorporates information from <a href="https://services.onetcenter.org/">O*NET Web Services</a> by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). O*NET&reg; is a trademark of USDOL/ETA.</p>
+   </div>
 </div>
-<p style="text-align: center"><a href="https://services.onetcenter.org/" title="This site incorporates information from O*NET Web Services. Click to learn more."><img src="https://www.onetcenter.org/image/link/onet-in-it.svg" style="width: 130px; height: 60px; border: none" alt="O*NET in-it"></a></p>
-<p>This site incorporates information from <a href="https://services.onetcenter.org/">O*NET Web Services</a> by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). O*NET&reg; is a trademark of USDOL/ETA.</p>
+
 
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends "header.html" %}
-
+{% block content %}
 <ul>
    {% for career in careers %}
    <li>{{ career.title }}</li>
@@ -17,4 +17,4 @@
    {% endif %}
 </div>
 
-{% block content %}{% endblock %}
+{% endblock %}

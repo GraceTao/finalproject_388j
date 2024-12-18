@@ -79,3 +79,9 @@ class UpdateUsernameForm(FlaskForm):
 class UpdateProfilePicForm(FlaskForm):
     picture = FileField("Upload image", validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
     submit_picture = SubmitField("Upload")
+
+class QuizResultsForm(FlaskForm):
+    career1 = StringField("Top Career Result")
+    career2 = StringField("Second Career Result")
+    career3 = StringField("Third Career Result")
+    submit = SubmitField("Submit")

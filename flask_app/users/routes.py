@@ -4,7 +4,7 @@ import base64
 from io import BytesIO
 from .. import bcrypt
 from werkzeug.utils import secure_filename
-from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, UpdateProfilePicForm
+from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, UpdateProfilePicForm, QuizResultsForm
 from ..models import User
 
 users = Blueprint("users", __name__)
@@ -32,8 +32,8 @@ def register():
 
 @users.route("/login", methods=["GET", "POST"])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('movies.index'))
+    """ if current_user.is_authenticated:
+        return redirect(url_for('movies.index')) """
     
     login_form = LoginForm()
 
@@ -42,7 +42,7 @@ def login():
 
         if (user is not None) and (bcrypt.check_password_hash(user.password, login_form.password.data)):
             login_user(user)
-            return redirect(url_for('users.account'))
+            return render_template('user_detail.html')
         else:
             flash('Incorrect username or password. Please try again.')
     
@@ -55,11 +55,11 @@ def logout():
     if current_user.is_authenticated:
         logout_user()
 
-        return redirect(url_for('movies.index'))
+        return redirect(url_for('careers.index'))
     
-@users.route("/user-details/<username>")
+""" @users.route("/user-details/<username>")
 def user_detail(username):
-   # shows username, 
+   # shows username,  """
 
 
 @users.route("/account", methods=["GET", "POST"])
@@ -94,3 +94,18 @@ def account():
                            image=image, 
                            update_username_form=update_username_form, 
                            update_profile_pic_form=update_profile_pic_form)
+
+@users.route("/quiz", methods=["GET", "POST"])
+@login_required
+def quiz():
+    quiz_results_form = QuizResultsForm()
+    
+    if quiz_results_form.validate_on_submit():
+        careers = [quiz_results_form.career1.data,
+                   quiz_results_form.career2.data,
+                   quiz_results_form.career3.data]
+        user = User.objects(username=current_user.username).first()
+        user.quiz_results.extend(careers)
+        user.save()
+        return redirect(url_for('users.quiz')) #Change this route later
+    return render_template('quiz.html', form=quiz_results_form)
