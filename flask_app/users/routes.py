@@ -56,6 +56,10 @@ def logout():
         logout_user()
 
         return redirect(url_for('movies.index'))
+    
+@users.route("/user-details/<username>")
+def user_detail(username):
+   # shows username, 
 
 
 @users.route("/account", methods=["GET", "POST"])

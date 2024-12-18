@@ -46,9 +46,8 @@ def index():
     return render_template("index.html", form=form)
 
 @careers.route("/all-careers", methods=["GET"])
-def all_careers():
+def all_careers(start):
     # Get 'start' and 'end' query parameters, with defaults for the first page
-    start = int(request.args.get("start", 1))
     end = start + 19  # Show 20 careers per page
     
     # Call the API to get careers
@@ -81,7 +80,7 @@ def query_results(query):
     return render_template("query.html", results=results)
 
 
-@careers.route("/careers/<movie_id>", methods=["GET", "POST"])
+@careers.route("/careers/<career>", methods=["GET", "POST"])
 def movie_detail(movie_id):
     try:
         result = []
@@ -107,16 +106,3 @@ def movie_detail(movie_id):
     return render_template(
         "movie_detail.html", form=form, movie=result, reviews=reviews
     )
-
-
-@careers.route("/user/<username>")
-def user_detail(username):
-    user = User.objects(username=username).first()
-    error = None if user else f"user {username} does not exist"
-    # img = get_b64_img(user.username) use their username for helper function
-    bytes_im = BytesIO(user.profile_pic.read())
-    image = base64.b64encode(bytes_im.getvalue()).decode() if bytes_im else None
-
-    reviews = Review.objects(commenter=user) if user else None
-
-    return render_template("user_detail.html", error=error, username=username, image=image, reviews=reviews)

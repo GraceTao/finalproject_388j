@@ -15,6 +15,12 @@ from wtforms.validators import (
 
 from .models import User
 
+# 1. Search Form
+# 2. Quiz Results Form
+# 3. Login Form
+# 4. Registration Form
+# 5. Profile?
+
 
 class SearchForm(FlaskForm):
     search_query = StringField(
