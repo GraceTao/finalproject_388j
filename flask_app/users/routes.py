@@ -15,7 +15,7 @@ users = Blueprint("users", __name__)
 @users.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('movies.index'))
+        return redirect(url_for('careers.index'))
     
     registration_form = RegistrationForm()
     
@@ -25,6 +25,7 @@ def register():
                         email=registration_form.email.data,
                         password=hashed_password)
         new_user.save()
+        print(new_user)
         return redirect(url_for('users.login'))
 
     return render_template('register.html', form=registration_form)
