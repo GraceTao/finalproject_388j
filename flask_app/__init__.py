@@ -40,7 +40,6 @@ def create_app(test_config=None):
 
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
     app.config["MONGODB_HOST"] = os.environ.get("MONGODB_HOST")
-    # app.config["MONGO_URI"] = "mongodb://localhost:27017/my_database"
 
 
     db.init_app(app)
