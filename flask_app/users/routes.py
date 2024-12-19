@@ -4,7 +4,7 @@ import base64
 from io import BytesIO
 from .. import bcrypt
 from werkzeug.utils import secure_filename
-from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, UpdateProfilePicForm, QuizResultsForm
+from ..forms import RegistrationForm, LoginForm, SearchForm, QuizResultsForm
 from ..models import User
 
 users = Blueprint("users", __name__)
@@ -34,6 +34,7 @@ def register():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('careers.index'))
+
     
     login_form = LoginForm()
 
@@ -42,7 +43,12 @@ def login():
 
         if (user is not None) and (bcrypt.check_password_hash(user.password, login_form.password.data)):
             login_user(user)
-            return render_template('account.html')
+            user = User.objects(username=current_user.username).first()
+            unique_titles = user.saved_job_titles
+            unique_codes = user.saved_job_codes
+            zipped_jobs = zip(unique_titles, unique_codes)
+
+            return redirect(url_for('users.account'))
         else:
             flash('Incorrect username or password. Please try again.')
     
@@ -56,41 +62,23 @@ def logout():
         logout_user()
 
         return redirect(url_for('careers.index'))
-    
-""" @users.route("/user-details/<username>")
-def user_detail(username):
-   # shows username,  """
 
 
 @users.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
-    """ update_username_form = UpdateUsernameForm()
-    update_profile_pic_form = UpdateProfilePicForm()
-    image = None
-    if request.method == "POST":
-        if update_username_form.submit_username.data and update_username_form.validate():
-            current_user.modify(username=update_username_form.username.data)
-            current_user.save()
-            return redirect(url_for('users.account'))
+    form = SearchForm()
 
-        if update_profile_pic_form.submit_picture.data and update_profile_pic_form.validate():
-            img = update_profile_pic_form.picture.data
-            filename = secure_filename(img.filename)
-            content_type = f'images/{filename[-3:]}'
-
-            if current_user.profile_pic.get() is None:
-                current_user.profile_pic.put(img.stream, content_type=content_type)
-            else:
-                current_user.profile_pic.replace(img.stream, content_type=content_type)
-            
-            current_user.save()
-            return redirect(url_for('users.account'))
-        
-    bytes_im = BytesIO(current_user.profile_pic.read())
-    image = base64.b64encode(bytes_im.getvalue()).decode() if bytes_im else None """
+    if form.validate_on_submit():
+        return redirect(url_for("careers.query_results", query=form.search_query.data))
     
-    return render_template('account.html')
+    user = User.objects(username=current_user.username).first()
+    unique_titles = user.saved_job_titles
+    unique_codes = user.saved_job_codes
+    zipped_jobs = zip(unique_titles, unique_codes)
+
+    return render_template('account.html', form=form, zipped_jobs=zipped_jobs)
+
 
 @users.route("/quiz", methods=["GET", "POST"])
 @login_required
@@ -104,7 +92,7 @@ def quiz():
         user = User.objects(username=current_user.username).first()
         user.quiz_results.extend(careers)
         user.save()
-        return redirect(url_for('users.quiz')) #Change this route later
+        return redirect(url_for('users.account')) 
     return render_template('quiz.html', form=quiz_results_form)
 
 

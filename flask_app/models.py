@@ -22,9 +22,10 @@ class User(db.Document, UserMixin):
     profile_pic = db.ImageField()
     profile = db.ReferenceField(Profile, null=True)
     quiz_results = db.ListField(db.StringField(), default=[])
-    saved_jobs = db.ListField(db.StringField(), default=[])
+    saved_job_titles = db.ListField(db.StringField(), default=[])
+    saved_job_codes = db.ListField(db.StringField(), default=[])
 
     # Returns unique string identifying our object
     def get_id(self):
         return self.username
-    
+

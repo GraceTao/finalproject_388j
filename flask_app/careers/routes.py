@@ -5,8 +5,8 @@ from flask_login import current_user, login_required
 from pytest import console_main
 
 from .. import careers_client
-from ..forms import MovieReviewForm, SaveJobForm, SearchForm
-from ..models import User, Profile #, Quiz
+from ..forms import SaveJobForm, SearchForm
+from ..models import User
 from ..utils import current_time
 
 careers = Blueprint("careers", __name__)
@@ -78,35 +78,29 @@ def career_detail(code):
     form = SearchForm()
     if form.validate_on_submit():
         return redirect(url_for("careers.query_results", query=form.search_query.data))
-    # form = MovieReviewForm()
-    # if form.validate_on_submit():
-    #     review = Review(
-    #         commenter=current_user._get_current_object(),
-    #         content=form.text.data,
-    #         date=current_time(),
-    #         imdb_id=movie_id,
-    #         movie_title=result.title,
-    #     )
-
-    #     review.save()
-
-    #     return redirect(request.path)
-
-    # reviews = Review.objects(imdb_id=movie_id)
 
     return render_template("career_detail.html", career=career, form=form)
 
-@careers.route("/career_detail/", methods=["GET", "POST"])
+@careers.route("/save_job", methods=["GET", "POST"])
 @login_required
 def save_job():
     saved_job_form = SaveJobForm()
+    
     if saved_job_form.validate_on_submit():
         title = saved_job_form.job_title.data
+        code = saved_job_form.job_code.data
         user = User.objects(username=current_user.username).first()
-        user.saved_jobs.append(title)
+        if title not in user.saved_job_titles:
+            user.saved_job_titles.append(title)
+        if code not in user.saved_job_codes:
+            user.saved_job_codes.append(code)
         user.save()
         return redirect(request.referrer)
+    else:
+        flash('Error: Unable to save job. Please try again.', 'error')
+    
     return render_template('career_detail.html', form=saved_job_form)
+
 
 
 

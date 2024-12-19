@@ -6,18 +6,19 @@
 
 {% if career %} 
 {# Display card for the career details #}
-<div style="display: flex; justify-content: space-between; padding: 10px;">
+<div style="display: flex; justify-content: space-between;">
   <h1 style="font-size:30;margin-left:5%;margin-top:2%">
     <b>{{ career.career.title }}</b>
   </h1>
 
-
-  <form method="POST" action="{{ url_for('careers.save_job') }}">
-    {{ form.hidden_tag() }}
-    <input type="hidden" name="job_title" value="{{ career.title }}">
+  <form method="POST" action="{{ url_for('careers.save_job') }}" style="margin-right:30%">
+    {{ form.csrf_token }}
+    <input type="hidden" name="job_title" value="{{ career.career.title }}">
+    <input type="hidden" name="job_code" value="{{ career.code }}">
     
-    <button type="submit" class="save-job-btn" style="padding: 10px 20px;">
-      <i class="fas fa-map-pin" style="margin-right: 8px;"></i> Save Job
+    <button type="submit" class="save-job-btn" style="padding-top:10%">
+      <i class="fas fa-map-pin" style="font-size:40"></i> 
+      <p style="font-size:30">Save Job</p>
     </button>
   </form>
 </div>
@@ -27,149 +28,117 @@
 {% endif %}
 
 <div style="font-size:18; margin-left:10%; width:80%; padding-top:2%">
-   <ul>
-      <li>
-         <b>This position is also called:</b>
-         <ul>
-            {% for alt_title in career.career.also_called.title %}
-            <li>{{alt_title}}</li>
-            {% endfor %}
-         </ul>
-      </li>
-      {% if career.education.education_usually_needed %}
+  <ul>
+    <li>
+      <b>This position is also called:</b>
+      <ul>
+        {% if career.career.also_called and career.career.also_called.title %}
+          {% for alt_title in career.career.also_called.title %}
+            <li>{{ alt_title }}</li>
+          {% endfor %}
+        {% else %}
+          <li>N/A</li>
+        {% endif %}
+      </ul>
+    </li>
+
+    {% if career.education and career.education.education_usually_needed and career.education.education_usually_needed.category %}
       <br>
       <li>
         <b>Education:</b>
-          {{ career.education.education_usually_needed.category[0] }}
+        {{ career.education.education_usually_needed.category[0] }}
       </li>
-      {% endif %}
-      <br>
-      <li>
-        <b>Median income:</b>
-        {{ career.job_outlook.salary.annual_median }}
-      </li>
+    {% else %}
+      <li><b>Education:</b> N/A</li>
+    {% endif %}
+    
+    <br>
+    <li>
+      <b>Median income:</b>
+      {{ career.job_outlook.salary.annual_median if career.job_outlook and career.job_outlook.salary and career.job_outlook.salary.annual_median else 'N/A' }}
+    </li>
 
+    <br>
+    <li>
+      <b>Core responsibilities:</b> 
       <br>
-      <li>
-        <b>Core responsibilities:</b> 
-        <br>
-        {{career.career.what_they_do}}
-      </li>
+      {{ career.career.what_they_do if career.career and career.career.what_they_do else 'N/A' }}
+    </li>
 
-      <br>
-      <li>
-        <b>On the job tasks:</b>
-        <ol>
+    <br>
+    <li>
+      <b>On the job tasks:</b>
+      <ol>
+        {% if career.career.on_the_job and career.career.on_the_job.task %}
           {% for task in career.career.on_the_job.task %}
-          <li>
-            {{task}}
-          </li>
+            <li>{{ task }}</li>
           {% endfor %}
-        </ol>
-      </li>
+        {% else %}
+          <li>N/A</li>
+        {% endif %}
+      </ol>
+    </li>
 
-      <br>
-      <li>
-        <b>Knowledge areas:</b>
-        <ol>
+    <br>
+    <li>
+      <b>Knowledge areas:</b>
+      <ol>
+        {% if career.knowledge and career.knowledge.group %}
           {% for item in career.knowledge.group %}
             {% for skill in item.element %}
-            <li>
-            {{skill.name}}
-            </li>
+              <li>{{ skill.name }}</li>
             {% endfor %}
           {% endfor %}
-        </ol>
-      </li>
+        {% else %}
+          <li>N/A</li>
+        {% endif %}
+      </ol>
+    </li>
 
-      <br>
-      <li>
-        <b>Skills:</b>
-        <ol>
+    <br>
+    <li>
+      <b>Skills:</b>
+      <ol>
+        {% if career.skills and career.skills.group %}
           {% for item in career.skills.group %}
             {% for skill in item.element %}
-            <li>
-            {{skill.name}}
-            </li>
+              <li>{{ skill.name }}</li>
             {% endfor %}
           {% endfor %}
-        </ol>
-      </li>
+        {% else %}
+          <li>N/A</li>
+        {% endif %}
+      </ol>
+    </li>
 
-      <br>
-      <li>
-        <b>Qualities:</b>
-        <ol>
+    <br>
+    <li>
+      <b>Qualities:</b>
+      <ol>
+        {% if career.personality and career.personality.work_styles and career.personality.work_styles.element %}
           {% for item in career.personality.work_styles.element %}
-            <li>
-            {{item.name}}
-            </li>
+            <li>{{ item.name }}</li>
           {% endfor %}
-        </ol>
-      </li>
+        {% else %}
+          <li>N/A</li>
+        {% endif %}
+      </ol>
+    </li>
 
-      <br>
-      <li>
-        <b>Technology competencies:</b>
-        <ol>
+    <br>
+    <li>
+      <b>Technology competencies:</b>
+      <ol>
+        {% if career.technology and career.technology.category %}
           {% for item in career.technology.category %}
-            <li>
-            {{item.title.name}}
-            </li>
+            <li>{{ item.title.name if item.title and item.title.name else 'N/A' }}</li>
           {% endfor %}
-        </ol>
-      </li>
-   </ul>
-
-   <!-- {# Reviews #}
-   <div class="reviews">
-      <h1 class="reviews-title">
-         Reviews
-         <small class="reviews-count"> {{ reviews | length }} reviews </small>
-      </h1>
-      <ul class="review-container">
-         {% for review in reviews %}
-         <li class="review flex gap-2">
-            <img
-               class="h-20 w-20 rounded-lg"
-               src="data:image/png;base64,{{review.image}}"
-               alt=""
-            />
-            <div class="w-full">
-               <span class="review-date">{{ review.date }}</span>
-               <a
-                  class="review-commenter"
-                  href="{{ url_for('movies.user_detail', username=review.commenter.username) }}"
-               >
-                  @{{ review.commenter.username }}
-               </a>
-               <p class="review-content">{{ review.content }}</p>
-            </div>
-         </li>
-         {% endfor %}
-      </ul>
-
-      {% if current_user.is_authenticated %} {# Movie review submission form #}
-      <div class="container mx-auto">
-         <form method="POST" action="" class="review-form">
-            {{ form.csrf_token }}
-            <div class="form-group review-input">
-               {{ form.text.label }} {{ form.text(class="form-content") }} {% if
-               form.text.errors %}
-               <div class="error" role="alert">
-                  {% for error in form.text.errors %}
-                  <span>{{ error }}</span>
-                  {% endfor %}
-               </div>
-               {% endif %}
-            </div>
-            {{ form.submit(class="review-button") }}
-         </form>
-      </div>
-      {% endif %}
-   </div>
-   <div class="w-0 lg:w-96"></div>
+        {% else %}
+          <li>N/A</li>
+        {% endif %}
+      </ol>
+    </li>
+  </ul>
 </div>
-{% endif %} {% endblock content %} -->
-{% endblock content %}
+{% endif %} {% endblock content %}
 </div>

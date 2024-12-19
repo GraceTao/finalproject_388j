@@ -1,18 +1,24 @@
 {% extends "header.html" %} 
 {% block content %}
-<div class="main-container">
-   <div class="decoration-main-container">
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+   <div class="decoration-main-container" style="width: 100%; display: flex; justify-content: center;">
       <div class="decoration-main"></div>
    </div>
-   <h2 class="main-title">Search a career</h2>
-   <a class="m-5 navlink" style="font-size:40;justify-self:center" href="{{ url_for('careers.all_careers', start=0) }}">
-      <span>Go To All Careers</span>
-   </a>
-   <div class="credit" style="text-align: center; position: fixed; bottom: 0">
-      <p><a href="https://services.onetcenter.org/" title="This site incorporates information from O*NET Web Services. Click to learn more."><img src="https://www.onetcenter.org/image/link/onet-in-it.svg" style="width: 130px; height: 60px; border: none" alt="O*NET in-it"></a></p>
+   <h2 class="main-title" style="font-size: 36px; margin-bottom: 20px;">Learn about different jobs!</h2>
+   <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 30px;">
+      <a class="m-5 navlink" style="font-size: 40px; text-align: center;" href="{{ url_for('careers.all_careers', start=0) }}">
+         <span>Go To All Careers</span>
+      </a>
+
+      <img src="https://cdn.phenompeople.com/CareerConnectResources/KIVKBRUS/images/MicrosoftTeams-image102[1920x927]web-1664813477508.jpg" alt="jobs" style="max-width: 60%; height: auto;"/>
+   </div>
+   <div class="credit" style="position: fixed; bottom: 0; text-align: center; width: 100%; padding: 10px 0;">
+      <p>
+         <a href="https://services.onetcenter.org/" title="This site incorporates information from O*NET Web Services. Click to learn more.">
+            <img src="https://www.onetcenter.org/image/link/onet-in-it.svg" style="width: 130px; height: 60px; border: none" alt="O*NET in-it">
+         </a>
+      </p>
       <p>This site incorporates information from <a href="https://services.onetcenter.org/">O*NET Web Services</a> by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). O*NET&reg; is a trademark of USDOL/ETA.</p>
    </div>
 </div>
-
-
 {% endblock %}

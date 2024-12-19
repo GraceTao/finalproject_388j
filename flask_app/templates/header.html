@@ -15,7 +15,7 @@
       {{ form.csrf_token }} 
       {{ form.search_query(class="form-control", placeholder="job title or keyword") }} 
       
-      {% if form.search_query.errors%}
+      {% if form.search_query.errors %}
       <div class="error" role="alert">
          {% for error in form.search_query.errors %}
          <span>{{ error }}</span>

@@ -1,21 +1,30 @@
 {% extends "header.html" %}
 {% block content %}
 <div class="container mx-auto w-full md:w-2/3 lg:w-1/3">
-    {% if image %}
-        {# Profile picture #}
-        <img class="rounded-2xl h-24 w-24" src="data:image/png;base64,{{image}}" alt="image">
-    {% endif %}
-
-    <p class="text-xl">Welcome, {{current_user.username}}!</p>
-
+    <h1 style="font-size:30;margin-bottom:2%;margin-top:5%">Welcome, {{current_user.username}}!</h1>
 </div>
 
 <div class="container mx-auto w-full md:w-2/3 lg:w-1/3">
     <h3 class="text-xl">
         Your Top Careers
     </h3>
-    {% for career in current_user.quiz_results %}
-        <li>{{ career }}</li>
+    {% for career in current_user.quiz_results|sort|unique %}
+        <li>
+            <a href="{{ url_for('careers.query_results', query=career) }}">
+                <u>{{ career }}</u>
+            </a>
+        </li>
+    {% endfor %}
+    <br>
+    <h3 class="text-xl">
+        Your Saved Jobs
+    </h3>
+    {% for title, code in zipped_jobs %}
+    <li>
+        <a href="{{ url_for('careers.career_detail', code=code) }}">
+            <u>{{ title }}</u>
+        </a>
+    </li>
     {% endfor %}
 </div>
 

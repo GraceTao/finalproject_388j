@@ -15,12 +15,6 @@ from wtforms.validators import (
 
 from .models import User
 
-# 1. Search Form
-# 2. Quiz Results Form
-# 3. Login Form
-# 4. Registration Form
-# 5. Profile?
-
 
 class SearchForm(FlaskForm):
     search_query = StringField(
@@ -90,4 +84,5 @@ class QuizResultsForm(FlaskForm):
 
 class SaveJobForm(FlaskForm):
     job_title = HiddenField("Job Title")
+    job_code = HiddenField("Job Code")
     submit = SubmitField("Save this job")
